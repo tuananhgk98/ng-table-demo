@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
   }
 
   move() {
-    this.dataSourceTwo.data = this.selection['_selected'];
+    this.dataSourceTwo.data = [...this.selection['_selected']];
     this.dataSourceTwo._updateChangeSubscription();
   }
 }
