@@ -1,0 +1,94 @@
+<div class="container">
+  <div [style.flex]="1 / 3">
+    <div align="center">Available Part</div>
+    <table mat-table [dataSource]="dataSourceOne">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="partName">
+        <th mat-header-cell *matHeaderCellDef>Part Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.partName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="partNumber">
+        <th mat-header-cell *matHeaderCellDef>Part Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.partNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="partCode">
+        <th mat-header-cell *matHeaderCellDef>Part Code</th>
+        <td mat-cell *matCellDef="let element">{{ element.partCode }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsOne"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsOne"
+        (click)="selection.toggle(row)"
+      ></tr>
+    </table>
+  </div>
+  <div [style.flex]="1 / 3" align="center">
+    <button mat-raised-button color="primary" (click)="move()">Move</button>
+  </div>
+  <div [style.flex]="1 / 3">
+    <div align="center">Selected Part ({{ dataSourceTwo.data.length }})</div>
+    <table mat-table [dataSource]="dataSourceTwo">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox disabled> </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox disabled [checked]="true"> </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="partName">
+        <th mat-header-cell *matHeaderCellDef>Part Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.partName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="partNumber">
+        <th mat-header-cell *matHeaderCellDef>Part Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.partNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="partCode">
+        <th mat-header-cell *matHeaderCellDef>Part Code</th>
+        <td mat-cell *matCellDef="let element">{{ element.partCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; index as i">
+          <button mat-button (click)="deleteItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsTwo"
+        (click)="selection.toggle(row)"
+      ></tr>
+    </table>
+  </div>
+</div>
