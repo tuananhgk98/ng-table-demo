@@ -45,7 +45,9 @@ export class AppComponent implements OnInit {
   dataSourceOne = new MatTableDataSource();
   dataSourceTwo = new MatTableDataSource();
 
-  selection = new SelectionModel<IPartData>(true, []);
+  selectionOne = new SelectionModel<IPartData>(true, []);
+  selectionTwo = new SelectionModel<IPartData>(true, []);
+
   displayedColumnsOne = ['select', 'partName', 'partNumber', 'partCode'];
   displayedColumnsTwo = [
     'select',
@@ -61,39 +63,54 @@ export class AppComponent implements OnInit {
     this.dataSourceOne.data = EXAMPLE_DATA;
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
+  isAllSelectedOne() {
+    const numSelected = this.selectionOne.selected.length;
     const numRows = this.dataSourceOne.data.length;
     return numSelected === numRows;
   }
 
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
+  masterToggleOne() {
+    if (this.isAllSelectedOne()) {
+      this.selectionOne.clear();
       return;
     }
 
-    this.selection.select(...(this.dataSourceOne.data as IPartData[]));
+    this.selectionOne.select(...(this.dataSourceOne.data as IPartData[]));
+  }
+
+  isAllSelectedTwo() {
+    const numSelected = this.selectionTwo.selected.length;
+    const numRows = this.dataSourceTwo.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggleTwo() {
+    if (this.isAllSelectedTwo()) {
+      this.selectionTwo.clear();
+      return;
+    }
+
+    this.selectionTwo.select(...(this.dataSourceTwo.data as IPartData[]));
   }
 
   deleteItem(index: number) {
     this.dataSourceOne.data.unshift(this.dataSourceTwo.data[index]);
     this.dataSourceTwo.data.splice(index, 1);
-    this.selection.clear();
+    this.selectionOne.clear();
     this.dataSourceOne._updateChangeSubscription();
     this.dataSourceTwo._updateChangeSubscription();
   }
 
   move() {
-    this.selection['_selected'].forEach((item: IPartData) => {
+    this.selectionOne['_selected'].forEach((item: IPartData) => {
       const index = this.dataSourceOne.data.findIndex(
         (i: any) => i.partCode === item.partCode
       );
       this.dataSourceOne.data.splice(index, 1);
       this.dataSourceOne._updateChangeSubscription();
     });
-    this.dataSourceTwo.data = [...this.selection['_selected']];
+    this.dataSourceTwo.data = [...this.selectionOne['_selected']];
     this.dataSourceTwo._updateChangeSubscription();
-    this.selection.clear();
+    this.selectionOne.clear();
   }
 }

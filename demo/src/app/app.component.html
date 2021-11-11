@@ -5,17 +5,17 @@
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox
-            (change)="$event ? masterToggle() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            (change)="$event ? masterToggleOne() : null"
+            [checked]="selectionOne.hasValue() && isAllSelectedOne()"
+            [indeterminate]="selectionOne.hasValue() && !isAllSelectedOne()"
           >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
+            (change)="$event ? selectionOne.toggle(row) : null"
+            [checked]="selectionOne.isSelected(row)"
           >
           </mat-checkbox>
         </td>
@@ -40,7 +40,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumnsOne"
-        (click)="selection.toggle(row)"
+        (click)="selectionOne.toggle(row)"
       ></tr>
     </table>
   </div>
@@ -52,10 +52,20 @@
     <table mat-table [dataSource]="dataSourceTwo">
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox disabled> </mat-checkbox>
+          <mat-checkbox
+            (change)="$event ? masterToggleTwo() : null"
+            [checked]="selectionTwo.hasValue() && isAllSelectedTwo()"
+            [indeterminate]="selectionTwo.hasValue() && !isAllSelectedTwo()"
+          >
+          </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox disabled [checked]="true"> </mat-checkbox>
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selectionTwo.toggle(row) : null"
+            [checked]="selectionTwo.isSelected(row)"
+          >
+          </mat-checkbox>
         </td>
       </ng-container>
 
@@ -87,7 +97,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumnsTwo"
-        (click)="selection.toggle(row)"
+        (click)="selectionTwo.toggle(row)"
       ></tr>
     </table>
   </div>
