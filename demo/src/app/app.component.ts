@@ -77,12 +77,23 @@ export class AppComponent implements OnInit {
   }
 
   deleteItem(index: number) {
+    this.dataSourceOne.data.unshift(this.dataSourceTwo.data[index]);
     this.dataSourceTwo.data.splice(index, 1);
+    this.selection.clear();
+    this.dataSourceOne._updateChangeSubscription();
     this.dataSourceTwo._updateChangeSubscription();
   }
 
   move() {
+    this.selection['_selected'].forEach((item: IPartData) => {
+      const index = this.dataSourceOne.data.findIndex(
+        (i: any) => i.partCode === item.partCode
+      );
+      this.dataSourceOne.data.splice(index, 1);
+      this.dataSourceOne._updateChangeSubscription();
+    });
     this.dataSourceTwo.data = [...this.selection['_selected']];
     this.dataSourceTwo._updateChangeSubscription();
+    this.selection.clear();
   }
 }
